@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "dragonheart",
-  "main": "src/index.ts",
+  "main": "src/index.js",
   "compatibility_date": "2026-07-04",
   "observability": {
     "enabled": true

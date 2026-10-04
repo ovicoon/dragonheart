@@ -13,6 +13,11 @@
       "binding": "selement",
       "database_name": "selement",
       "database_id": "1f4c9e4f-0ee8-4574-bdd6-8cb4ef4b4aeb"
+    },
+    {
+      "binding": "dragonheart-auth",
+      "database_name": "dragonheart-auth",
+      "database_id": "05f3c79e-7db1-4de0-891e-73d74c446b1eg"
     }
   ]
 }

@@ -1,5 +1,17 @@
 export default {
   async fetch(request, env, ctx) {
+
+    // Rate limiting
+    const ip = request.headers.get("CF-Connecting-IP");
+
+    const { success } = await env.MY_RATE_LIMITER.limit({
+      key: ip,
+    });
+
+    if (!success) {
+      return new Response("Too Many Requests", { status: 429 });
+    }
+
     // 보안 및 규격을 위해 POST 요청만 허용합니다. (클라이언트에서 데이터를 보낼 때만 수신)
     if (request.method !== "POST") {
       return new Response(JSON.stringify({ error: "Method Not Allowed. Use POST." }), { 

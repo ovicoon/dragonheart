@@ -14,5 +14,16 @@
       "database_name": "selement",
       "database_id": "1f4c9e4f-0ee8-4574-bdd6-8cb4ef4b4aeb"
     }
+  ],
+
+  "ratelimits": [
+    {
+      "name": "MY_RATE_LIMITER",
+      "namespace_id": "1",
+      "simple": {
+        "limit": 100,
+        "period": 60
+      }
+    }
   ]
 }

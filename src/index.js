@@ -1,5 +1,17 @@
 export default {
   async fetch(request, env, ctx) {
+
+    // Rate limiting
+    const ip = request.headers.get("CF-Connecting-IP");
+
+    const { success } = await env.MY_RATE_LIMITER.limit({
+      key: ip,
+    });
+
+    if (!success) {
+      return new Response("Too Many Requests", { status: 429 });
+    }
+
     // 보안 및 규격을 위해 POST 요청만 허용합니다. (클라이언트에서 데이터를 보낼 때만 수신)
     if (request.method !== "POST") {
       return new Response(JSON.stringify({ error: "Method Not Allowed. Use POST." }), { 
@@ -15,7 +27,7 @@ export default {
       const body = await request.json();
 
       // 1. 플레이 세션 데이터 저장 경로 /api/sessions 는 deprecated 입니다. /api/selement/sessions 를 대신 사용할 예정입니다.
-      if (url.pathname === "/api/sessions" || "/api/selement/sessions") {
+      if (url.pathname === "/api/sessions" || url.pathname === "/api/selement/sessions") {
         const query = `
           INSERT INTO play_sessions (play_time, ending, ended, easter_egg_ending, version) 
           VALUES (?, ?, ?, ?, ?)
@@ -40,7 +52,7 @@ export default {
       }
 
       // 2. 크래시 로그 데이터 저장 경로 /api/errors 는 deprecated 입니다. /api/selement/errors 를 대신 사용할 예정입니다.
-      if (url.pathname === "/api/errors" || "/api/selement/errors") {
+      if (url.pathname === "/api/errors" || url.pathname === "/api/selement/errors") {
         const query = `
           INSERT INTO crash_logs (error_type, version) 
           VALUES (?, ?)
@@ -65,7 +77,8 @@ export default {
 
     } catch (error) {
       // 데이터 포맷 불일치나 SQL 에러 등 예외 발생 시 에러 메시지 반환
-      return new Response(JSON.stringify({ error: error.message }), {
+      return new Response(
+      JSON.stringify({ error: "Internal Server Error" }), {
         status: 500,
         headers: { "Content-Type": "application/json" },
       });

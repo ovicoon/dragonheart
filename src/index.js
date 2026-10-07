@@ -15,7 +15,7 @@ export default {
       const body = await request.json();
 
       // 1. 플레이 세션 데이터 저장 경로 /api/sessions 는 deprecated 입니다. /api/selement/sessions 를 대신 사용할 예정입니다.
-      if (url.pathname === "/api/sessions" || "/api/selement/sessions") {
+      if (url.pathname === "/api/sessions" || url.pathname === "/api/selement/sessions") {
         const query = `
           INSERT INTO play_sessions (play_time, ending, ended, easter_egg_ending, version) 
           VALUES (?, ?, ?, ?, ?)
@@ -40,7 +40,7 @@ export default {
       }
 
       // 2. 크래시 로그 데이터 저장 경로 /api/errors 는 deprecated 입니다. /api/selement/errors 를 대신 사용할 예정입니다.
-      if (url.pathname === "/api/errors" || "/api/selement/errors") {
+      if (url.pathname === "/api/errors" || url.pathname === "/api/selement/errors") {
         const query = `
           INSERT INTO crash_logs (error_type, version) 
           VALUES (?, ?)

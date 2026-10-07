@@ -65,7 +65,8 @@ export default {
 
     } catch (error) {
       // 데이터 포맷 불일치나 SQL 에러 등 예외 발생 시 에러 메시지 반환
-      return new Response(JSON.stringify({ error: error.message }), {
+      return new Response(
+      JSON.stringify({ error: "Internal Server Error" }), {
         status: 500,
         headers: { "Content-Type": "application/json" },
       });

@@ -11,7 +11,7 @@ export default {
     const url = new URL(request.url);
     
     try {
-      // 클라이언트(Python)가 보낸 JSON 데이터를 파싱합니다.
+      // 클라이언트가 보낸 JSON 데이터를 파싱합니다.
       const body = await request.json();
 
       // 1. 플레이 세션 데이터 저장 경로 (/api/sessions)
